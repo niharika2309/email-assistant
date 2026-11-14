@@ -1,10 +1,13 @@
 """Email assistant agent: understand -> plan -> draft -> review -> revise."""
 
+from langfuse import observe
+
 from . import prompts
 from .config import MODEL
 from .llm_client import client
 
 
+@observe()
 def understand_email(email):
 
     response = client.chat.completions.create(
@@ -24,6 +27,7 @@ def understand_email(email):
     return response.choices[0].message.content
 
 
+@observe()
 def plan_response(email, understanding, context):
 
     response = client.chat.completions.create(
@@ -47,6 +51,7 @@ def plan_response(email, understanding, context):
     return response.choices[0].message.content
 
 
+@observe()
 def draft_reply(email, plan, context):
 
     response = client.chat.completions.create(
@@ -70,6 +75,7 @@ def draft_reply(email, plan, context):
     return response.choices[0].message.content
 
 
+@observe()
 def review_reply(email, draft, context):
 
     response = client.chat.completions.create(
@@ -93,6 +99,7 @@ def review_reply(email, draft, context):
     return response.choices[0].message.content
 
 
+@observe()
 def revise_reply(email, draft, review, context):
 
     response = client.chat.completions.create(
@@ -117,6 +124,7 @@ def revise_reply(email, draft, review, context):
     return response.choices[0].message.content
 
 
+@observe()
 def email_agent(email, user_context):
 
     print("Step 1: Understanding email...")

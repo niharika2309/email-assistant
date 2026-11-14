@@ -2,3 +2,6 @@
 .venv/
 .vscode/
 .ipynb_checkpoints/
+
+# local self-hosted Langfuse clone (not part of this project)
+langfuse/
